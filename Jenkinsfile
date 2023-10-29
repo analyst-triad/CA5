@@ -1,36 +1,36 @@
 pipeline {
     agent any
 
-    environment {
-    DOCKERHUB_CREDENTIALS = credentials('Docker_Account')
-    }
-
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Run Docker Compose') {
             steps {
-                sh 'docker build -t analysts/ca4_backend:latest ./db'
-            }
-        }
+                script {
+                    
+                    def frontendImageExists = sh(script: 'docker pull analysts/ca4_frontend:latest', returnStatus: true) == 0
+                    def backendImageExists = sh(script: 'docker pull analysts/ca4_backend:latest', returnStatus: true) == 0
 
-        stage('Login') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'Docker_Account', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                    sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
+                    if (frontendImageExists && backendImageExists) {
+                        sh 'docker-compose up -d'
+                    } else {
+                        error 'Required Docker images not found on Docker Hub.'
+                    }
                 }
             }
         }
-        
-        stage('Push') {
-        steps {
-            sh 'docker push analysts/ca4_backend:latest'
-            }
+    }
+
+    post {
+        success {
+            echo 'Docker Compose stack started successfully.'
+        }
+        failure {
+            error 'Failed to start Docker Compose stack.'
         }
     }
 }
