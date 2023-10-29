@@ -67,7 +67,7 @@ def login():
             if result:
                 flash('Login successful!', 'success')
             else:
-                flash('Login failed. Please check your username and password.', 'danger')
+                flash('Login failed. Please reenter your username and password.', 'danger')
         finally:
             cursor.close()
             connection.close()
