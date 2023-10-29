@@ -8,6 +8,17 @@ pipeline {
             }
         }
 
+        stage('Docker Login') {
+            steps {
+                script {
+                    // Use Docker Hub credentials
+                    withCredentials([usernamePassword(credentialsId: 'DockerHubCredentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+                    }
+                }
+            }
+        }
+
         stage('Run Docker Compose') {
             steps {
                 script {
