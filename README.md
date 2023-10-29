@@ -2,7 +2,7 @@
 
 # Flask Sign-up and Login Application
 
-This is a simple Flask application that provides sign-up and login functionality using Docker Compose.
+This is a simple Flask application that provides sign-up and login functionality using Docker Compose. This was built using jenkins.
 
 ## Prerequisites
 
