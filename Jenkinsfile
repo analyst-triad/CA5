@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+    DOCKERHUB_CREDENTIALS = credentials('Docker_Account')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -8,26 +12,20 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Build the Docker image for the Database service
-                    docker.build('ca4_frontend:latest', '.')
-                }
-            }
+        stage('Build') {
+        steps {
+            sh 'docker build -t analysts/ca4_frontend:latest .'
         }
-
-        
-         stage('Docker Login and Push') {
-            steps {
-                script {
-                    // Use Docker Hub credentials
-                    withCredentials([usernamePassword(credentialsId: 'Docker_Account', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
-                        sh "docker push ca4_frontend:latest"
-                    }
-                }
-            }
         }
+        stage('Login') {
+        steps {
+            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        }
+        }
+        stage('Push') {
+        steps {
+            sh 'docker push analysts/ca4_frontend:latest'
+        }
+    }
     }
 }
