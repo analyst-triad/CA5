@@ -1,0 +1,3 @@
+Member1: Saad Bin Farooq - Docker Compose File
+Member2: Bilal Badar - Front End Flask
+Member3: Muhammad Abdullah - Back End SQL
