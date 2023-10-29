@@ -1,4 +1,4 @@
-# MLOps Class Task 4
+# MLOps Class Task 5
 
 # Flask Sign-up and Login Application
 
@@ -22,3 +22,5 @@ Follow these steps to run the Flask application:
 
    ```bash
    docker compose up -d
+
+4. Go to localhost:8080 to run the application. You can go to localhost:8080/signup or localhost:8080/login for each feature.
