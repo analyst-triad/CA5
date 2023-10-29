@@ -10,7 +10,7 @@ services:
     links:
       - db  # Link to the backend service
     ports:
-      - "5000:5000"  # Map container port 5000 to host port 5000
+      - "8080:8080"  # Map container port 5000 to host port 5000
 
   # Backend service (MySQL database)
   db:
