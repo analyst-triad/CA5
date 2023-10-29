@@ -12,11 +12,11 @@ pipeline {
             steps {
                 script {
                     // Build and tag the Docker image for the web service.
-                    docker.build('web-service:latest', './web-service-directory')
+                    docker.build('ca4_frontend:latest', '.')
 
                     // Push the Docker image to Docker Hub.
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        docker.image('web-service:latest').push()
+                    docker.withRegistry('https://registry.hub.docker.com', 'DockerHubCredentials') {
+                        docker.image('ca4_frontend:latest').push()
                     }
                 }
             }
