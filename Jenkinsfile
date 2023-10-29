@@ -8,27 +8,26 @@ pipeline {
             }
         }
 
-        stage('Docker Login') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    // Use Docker Hub credentials
-                    withCredentials([usernamePassword(credentialsId: 'Docker_Account', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
-                    }
+                    // Build the Docker image for the Database service
+                    docker.build('ca4_frontend:latest', '.')
                 }
             }
         }
 
-        stage('Build and Push Docker Image') {
+        
+         stage('Docker Login and Push') {
             steps {
                 script {
-                    // Build and tag the Docker image for the Database service.
-                    docker.build('ca4_frontend:latest', '.')
-
-                    // Push the Docker image to Docker Hub.
-                    docker.image('ca4_frontend:latest').push()
+                    // Use Docker Hub credentials
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+                        sh "docker push ca4_frontend:latest"
+                    }
                 }
             }
-        }
-    }
+        }
+    }
 }
