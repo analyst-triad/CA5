@@ -1,7 +1,7 @@
 # Define the version of Docker Compose configuration
 version: "2"
 
-# Define the services for the application
+# Define services for the application
 services:
 
   # Frontend service
