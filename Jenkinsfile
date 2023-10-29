@@ -2,10 +2,11 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('Docker_Account')
+    DOCKERHUB_CREDENTIALS = credentials('Docker_Account')
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -14,7 +15,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'docker build -t ca4_backend:latest ./db'
+                sh 'docker build -t analysts/ca4_backend:latest ./db'
             }
         }
 
@@ -25,10 +26,10 @@ pipeline {
                 }
             }
         }
-
+        
         stage('Push') {
-            steps {
-                sh 'docker push ca4_backend:latest'
+        steps {
+            sh 'docker push analysts/ca4_backend:latest'
             }
         }
     }
