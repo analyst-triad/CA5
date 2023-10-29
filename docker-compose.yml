@@ -1,0 +1,24 @@
+# Define the version of Docker Compose configuration
+version: "2"
+
+# Define the services for the application
+services:
+
+  # Frontend service
+  app:
+    image: analysts/ca4_frontend:latest
+    links:
+      - db  # Link to the backend service
+    ports:
+      - "8080:8080"  # Map container port 5000 to host port 5000
+
+  # Backend service (MySQL database)
+  db:
+    image: analysts/ca4_backend:latest
+    ports:
+      - "3307:3306"  # Map container port 3306 to host port 3307
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: user_data  # Define the MySQL database name
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro  # Mount the init script into the container
