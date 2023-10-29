@@ -12,11 +12,11 @@ pipeline {
             steps {
                 script {
                     // Build and tag the Docker image for the Database service.
-                    docker.build('CA4_backend:latest', './db')
+                    docker.build('ca4_backend:latest', './db')
 
                     // Push the Docker image to Docker Hub.
                     docker.withRegistry('https://registry.hub.docker.com', 'DockerHubCredentials') {
-                        docker.image('CA4_backend:latest').push()
+                        docker.image('ca4_backend:latest').push()
                     }
                 }
             }
