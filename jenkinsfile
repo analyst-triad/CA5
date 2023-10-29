@@ -14,7 +14,7 @@ pipeline {
                     // Build and tag the Docker image for the Database service.
                     docker.build('ca4_backend:latest', './db')
 
-                    // Push the Docker image to Docker Hub.
+                    // Push the Docker image to DockerHub
                     docker.withRegistry('https://registry.hub.docker.com', 'DockerHubCredentials') {
                         docker.image('ca4_backend:latest').push()
                     }
